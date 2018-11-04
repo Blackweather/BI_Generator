@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BI_Generator", "BI_Generator\BI_Generator.csproj", "{AD0A6475-0903-4435-859F-0A2621145FC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBConnector", "DBConnector\DBConnector.csproj", "{FD27378A-5E58-49E4-9A33-71202066D0D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelWriter", "ExcelWriter\ExcelWriter.csproj", "{D4C95F35-40F3-493C-B5A8-6A0A1E521819}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{AD0A6475-0903-4435-859F-0A2621145FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD0A6475-0903-4435-859F-0A2621145FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD0A6475-0903-4435-859F-0A2621145FC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD27378A-5E58-49E4-9A33-71202066D0D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD27378A-5E58-49E4-9A33-71202066D0D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD27378A-5E58-49E4-9A33-71202066D0D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD27378A-5E58-49E4-9A33-71202066D0D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4C95F35-40F3-493C-B5A8-6A0A1E521819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4C95F35-40F3-493C-B5A8-6A0A1E521819}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4C95F35-40F3-493C-B5A8-6A0A1E521819}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4C95F35-40F3-493C-B5A8-6A0A1E521819}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

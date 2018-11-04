@@ -51,9 +51,14 @@ namespace BI_Generator {
                 // TODO: check args
             }
 
-            // TODO: generate data for RDB
-
-            // TODO: generate data for EXCEL sheet
+            if (args[0] == "-db" || args[0] == "--database") {
+                DBConnector.DBConnector dbConnector = new DBConnector.DBConnector();
+                // TODO: generate data for RDB
+            }
+            else if (args[0] == "-xls" || args[0] == "--excel") {
+                ExcelWriter.ExcelWriter excelWriter = new ExcelWriter.ExcelWriter();
+                // TODO: generate data for EXCEL sheet
+            }
 
             return 0;
         }

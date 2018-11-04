@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BI_Generator {
@@ -25,39 +26,63 @@ namespace BI_Generator {
             Console.WriteLine("\tT1/T2 - specifies the time period for generating the data");
         }
 
+        public static bool CheckArgs(string[] args) {
+            if (args.Length == 0) {
+                PrintHelp(isFullHelp: false);
+                return false;
+            }
+
+            if (args.Length > 0 && args[0] == "-h") {
+                PrintHelp(isFullHelp: true);
+                return false;
+            }
+            else if (args.Length != 3) {
+                PrintHelp(isFullHelp: false);
+                return false;
+            }
+            else {
+                string[] allowedDataTypes = { "-db", "--database", "-xls", "--excel" };
+                if (!allowedDataTypes.Contains(args[0])) {
+                    Console.WriteLine("Data type argument is not valid!");
+                    PrintHelp(isFullHelp: false);
+                    return false;
+                }
+
+                if (!Regex.IsMatch(args[1], @"^\d+$")) {
+                    Console.WriteLine("Second argument must be a number!");
+                    PrintHelp(isFullHelp: false);
+                    return false;
+                }
+
+                if (args[2].ToLower() != "t1" && args[2].ToLower() != "t2") {
+                    Console.WriteLine("Time period argument is not valid!");
+                    PrintHelp(isFullHelp: false);
+                    return false;
+                }
+            }
+            return true;
+        }
+
         static int Main(string[] args) {
-            
-            // TODO: args parsing
+
+            // arguments:
             // -h - show help
             // first parameter - database or excel
             // second parameter - data count
             // third parameter - T1/T2
             Console.Clear();
 
-            if (args.Length == 0) {
-                PrintHelp(isFullHelp: false);
+            if (!CheckArgs(args)) {
                 return -1;
-            }
-
-            if (args.Length > 0 && args[0] == "-h") {
-                PrintHelp(isFullHelp: true);
-                return 0;
-            }
-            else if (args.Length > 3) {
-                PrintHelp(isFullHelp: false);
-                return -1;
-            }
-            else {
-                // TODO: check args
             }
 
             if (args[0] == "-db" || args[0] == "--database") {
-                DBConnector.DBConnector dbConnector = new DBConnector.DBConnector();
-                // TODO: generate data for RDB
+                DBConnector.DBConnector dbConnector = new DBConnector.DBConnector(int.Parse(args[1]), args[2]);
+                dbConnector.Generate();
             }
             else if (args[0] == "-xls" || args[0] == "--excel") {
-                ExcelWriter.ExcelWriter excelWriter = new ExcelWriter.ExcelWriter();
-                // TODO: generate data for EXCEL sheet
+                ExcelWriter.ExcelWriter excelWriter = new ExcelWriter.ExcelWriter(int.Parse(args[1]), args[2]);
+                excelWriter.Generate();
             }
 
             return 0;

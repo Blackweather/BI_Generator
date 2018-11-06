@@ -8,8 +8,8 @@ namespace ExcelWriter.Models {
     class Food {
         // excel data model for sheet 2 for food orders
         public int Id { get; set; }
-        public DateTime Date { get; set; }
-        public double Price { get; set; }
-        public string Description { get; set; }
+        public DateTime Data { get; set; }
+        public double Cena { get; set; }
+        public string Opis { get; set; }
     }
 }

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExcelWriterm.Models {
+namespace ExcelWriter.Models {
     class Sales {
         // excel data model for sheet 1 for ticket sales
-        private DateTime _date;
-        private int _ticketsSold;
-        private int _ticketsSoldChildren;
-        private int _ticketsSoldAdults;
+        public DateTime Data { get; set; }
+        public int Bilety { get; set; }
+        public int BiletyDzieci { get; set; }
+        public int BiletyDorosli { get; set; }
     }
 }

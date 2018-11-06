@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExcelWriter {
-    class DataModelFood {
+namespace ExcelWriter.Models {
+    class Food {
         // excel data model for sheet 2 for food orders
         public int Id { get; set; }
         public DateTime Date { get; set; }

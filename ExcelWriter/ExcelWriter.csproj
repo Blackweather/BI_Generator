@@ -40,8 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataModelFood.cs" />
-    <Compile Include="DataModelSales.cs" />
+    <Compile Include="Models\Food.cs" />
+    <Compile Include="Models\Sales.cs" />
     <Compile Include="ExcelWriter.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

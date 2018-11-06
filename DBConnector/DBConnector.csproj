@@ -41,10 +41,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataModel.cs" />
-    <Compile Include="DBConnection.cs" />
     <Compile Include="DBConnector.cs" />
-    <Compile Include="Generator.cs" />
+    <Compile Include="DatabaseGenerator.cs" />
+    <Compile Include="Model\Gatunek.cs" />
+    <Compile Include="Model\Pracownik.cs" />
+    <Compile Include="Model\Stanowisko.cs" />
+    <Compile Include="Model\Weterynarz.cs" />
+    <Compile Include="Model\Zwierze.cs" />
+    <Compile Include="NextId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\TypZdarzenia.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Input\" />
+    <Folder Include="Output\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

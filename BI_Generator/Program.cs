@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using DBConnector;
 
 namespace BI_Generator {
     class Program {
@@ -83,8 +84,8 @@ namespace BI_Generator {
             }
 
             if (args[0] == "-db" || args[0] == "--database") {
-                DBConnector.DBConnector dbConnector = new DBConnector.DBConnector(int.Parse(args[1]), args[2]);
-                dbConnector.Generate();
+                //for testing
+                var a = new DatabaseGenerator(@".");
             }
             else if (args[0] == "-xls" || args[0] == "--excel") {
                 ExcelWriter.ExcelWriter excelWriter = new ExcelWriter.ExcelWriter(int.Parse(args[1]), args[2]);

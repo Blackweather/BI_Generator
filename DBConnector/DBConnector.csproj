@@ -40,8 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataModel.cs" />
-    <Compile Include="DBConnector.cs" />
     <Compile Include="DatabaseGenerator.cs" />
     <Compile Include="Model\Gatunek.cs" />
     <Compile Include="Model\Pracownik.cs" />

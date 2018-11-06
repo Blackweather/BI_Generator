@@ -23,7 +23,7 @@ namespace BI_Generator {
             Console.WriteLine("data_count:");
             Console.WriteLine("\tany number - specifies number of data generated for specified model");
             Console.WriteLine("time_period:");
-            Console.WriteLine("\tT1/T2 - specifies the time period for generating the data");
+            Console.WriteLine("\tT1/T2 - specifies the time period for generating the data (T2 not supported for database)");
         }
 
         public static bool CheckArgs(string[] args) {
@@ -56,6 +56,12 @@ namespace BI_Generator {
 
                 if (args[2].ToLower() != "t1" && args[2].ToLower() != "t2") {
                     Console.WriteLine("Time period argument is not valid!");
+                    PrintHelp(isFullHelp: false);
+                    return false;
+                }
+
+                if (args[2].ToLower() == "t2" && (args[0] == "-db" || args[0] == "--database")) {
+                    Console.WriteLine("T2 not supported for database!");
                     PrintHelp(isFullHelp: false);
                     return false;
                 }

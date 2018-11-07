@@ -36,6 +36,9 @@ namespace ExcelWriter {
         }
 
         private void WriteToCsv(string path, FileType type, bool append = false) {
+            if (!File.Exists(path)) {
+                File.Create(path);
+            }
             using (StreamWriter sw = new StreamWriter(path, append)) {
                 if (!append) {
                     sw.WriteLine("sep=;");
@@ -45,7 +48,7 @@ namespace ExcelWriter {
                         sw.WriteLine("Id;Data;Cena;Opis");
                     }
                     foreach (Models.Food food in _generator.foodData) {
-                        sw.WriteLine($"{food.Id};{food.Data};{food.Cena};{food.Opis}");
+                        sw.WriteLine($"{food.Id};{food.Data.Day}.{food.Data.Month}.{food.Data.Year};{food.Cena};{food.Opis}");
                     }
                 }
                 else if (type == FileType.SALES) {
@@ -53,7 +56,7 @@ namespace ExcelWriter {
                         sw.WriteLine("Data;Bilety;BiletyDzieci;BiletyDorosli");
                     }
                     foreach (Models.Sales sale in _generator.salesData) {
-                        sw.WriteLine($"{sale.Data};{sale.Bilety};{sale.BiletyDzieci};{sale.BiletyDorosli}");
+                        sw.WriteLine($"{sale.Data.Day}.{sale.Data.Month}.{sale.Data.Year};{sale.Bilety};{sale.BiletyDzieci};{sale.BiletyDorosli}");
                     }
                 }
                 sw.Close();

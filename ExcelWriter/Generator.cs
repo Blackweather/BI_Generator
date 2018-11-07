@@ -12,6 +12,8 @@ namespace ExcelWriter {
             _t2Period = DateTime.Now;
             _t1Period = new DateTime(2013, 12, 05);
             _t0Period = new DateTime(2008, 01, 01);
+            foodData = new List<Models.Food>();
+            salesData = new List<Models.Sales>();
 
             _dataCount = dataCount;
             _timePeriod = timePeriod;
@@ -28,10 +30,10 @@ namespace ExcelWriter {
 
         private void Generate(DateTime startDate, DateTime endDate) {
             int range = (endDate - startDate).Days;
-
+            Random gen = new Random();
             for (int i = 0; i < _dataCount; i++) {
-                foodData.Add(RandomFood(i, startDate, range));
-                salesData.Add(RandomSales(startDate, range));
+                foodData.Add(RandomFood(i, startDate, range, gen));
+                salesData.Add(RandomSales(startDate, range, gen));
             }
 
             // sort both models by date
@@ -39,12 +41,11 @@ namespace ExcelWriter {
             salesData = salesData.OrderBy(x => x.Data).ToList();
         }
 
-        private Models.Food RandomFood(int id, DateTime startDate, int range) {
-            Random gen = new Random();
+        private Models.Food RandomFood(int id, DateTime startDate, int range, Random gen) {
             Models.Food food = new Models.Food();
 
             food.Id = id;
-            food.Opis = RandomOpis();
+            food.Opis = RandomOpis(gen);
             food.Data = startDate.AddDays(gen.Next(range));
             food.Cena = gen.NextDouble() * 1400 + 100; // 100 - 1500
             food.Cena = Math.Round(food.Cena, 2);
@@ -52,20 +53,18 @@ namespace ExcelWriter {
             return food;
         }
 
-        private Models.Sales RandomSales(DateTime startDate, int range) {
-            Random gen = new Random();
+        private Models.Sales RandomSales(DateTime startDate, int range, Random gen) {
             Models.Sales sales = new Models.Sales();
 
             sales.Data = startDate.AddDays(gen.Next(range));
             sales.Bilety = gen.Next(20, 3000); // 20 - 3000
-            sales.BiletyDzieci = gen.Next(sales.Bilety / 2, sales.Bilety * 10 / 15); // 50% - 66%
-            sales.BiletyDorosli = sales.Bilety = sales.BiletyDzieci;
+            sales.BiletyDzieci = gen.Next(sales.Bilety / 2, (sales.Bilety * 10) / 15); // 50% - 66%
+            sales.BiletyDorosli = sales.Bilety - sales.BiletyDzieci;
             return sales;
         }
 
-        private string RandomOpis() {
+        private string RandomOpis(Random r) {
             string[] lines = File.ReadAllLines(_inputOpisPath);
-            Random r = new Random();
             int randomLineNumber = r.Next(0, lines.Length - 1);
             return lines[randomLineNumber];
         }
@@ -80,7 +79,7 @@ namespace ExcelWriter {
         private int _dataCount;
         private string _timePeriod;
 
-        private const string _inputOpisPath = @".\Input\Opis.txt";
+        private const string _inputOpisPath = @"..\..\..\ExcelWriter\Input\Opis.txt";
 
     }
 }

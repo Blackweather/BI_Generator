@@ -78,7 +78,9 @@ namespace BI_Generator {
             // second parameter - data count
             // third parameter - T1/T2
             Console.Clear();
-            var a = new DatabaseGenerator(@".");
+
+            var a = new DatabaseGenerator(@".", 250, new DateTime(2012, 01, 01));
+            a.Start();
 
 
             if (!CheckArgs(args)) {
@@ -87,7 +89,7 @@ namespace BI_Generator {
 
             if (args[0] == "-db" || args[0] == "--database") {
                 //for testing
-                 a = new DatabaseGenerator(@".");
+                 //a = new DatabaseGenerator(@".");
             }
             else if (args[0] == "-xls" || args[0] == "--excel") {
                 ExcelWriter.ExcelWriter excelWriter = new ExcelWriter.ExcelWriter(int.Parse(args[1]), args[2]);

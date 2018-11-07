@@ -13,5 +13,10 @@ namespace DBConnector.Model
         public int IdPracownika { get; set; }
         //FK
         public int IdZdarzenia { get; set; }
+
+        public string ToString(char bulkIndicator)
+        {
+            return String.Join(bulkIndicator.ToString(), IdPracownika.ToString(), IdZdarzenia.ToString());
+        }
     }
 }

@@ -14,5 +14,10 @@ namespace DBConnector.Model
         //FK
         public int IdZwierzecia { get; set; }
         public DateTime Czas { get; set; }
+
+        public string ToString(char bulkIndicator)
+        {
+            return String.Join(bulkIndicator.ToString(), IdZdarzenia.ToString(), IdTypuZdarzenia.ToString(), IdZwierzecia.ToString(), Czas.ToString());
+        }
     }
 }

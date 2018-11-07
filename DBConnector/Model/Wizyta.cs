@@ -25,7 +25,7 @@ namespace DBConnector.Model
                 IdZwierzecia.ToString(),
                 Koszt.ToString(),
                 Opis,
-                Czas.ToShortDateString());
+                Czas.ToString());
 
         }
     }

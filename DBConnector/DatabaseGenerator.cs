@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Linq;
 
 namespace DBConnector
 {
@@ -19,7 +19,7 @@ namespace DBConnector
         public IList<TypZdarzenia> TypZdarzeniaTable = new List<TypZdarzenia>();
         public IList<Pracownik> PracownikTable = new List<Pracownik>();
         public IList<Zwierze> ZwierzeTable = new List<Zwierze>();
-
+        public IList<Wizyta> WizytaTable = new List<Wizyta>();
 
         //%
         private double probabilityOfZgon = 10;
@@ -29,12 +29,14 @@ namespace DBConnector
             _rootDirectory = rootDirectory;
             try
             {
+                Directory.CreateDirectory(rootDirectory + "\\Output");
                 GenerateStanowisko();
                 GenerateGatunek();
                 GenerateTypZdarzenia();
                 GenerateWeterynarz();
                 GeneratePracownik();
                 GenerateZwierze();
+                GenerateWizyta();
 
             }
             catch (IOException e)
@@ -227,17 +229,81 @@ namespace DBConnector
             writer.Close();
         }
 
+        /// <summary>
+        /// kurła
+        /// </summary>
+        private void GenerateWizyta()
+        {
+            //string currentTable = "Wizyta";
+            //var outputFilePath = (_rootDirectory + "\\Output\\" + currentTable + ".bulk");
+            //File.Create(outputFilePath).Close();
+            //var writer = new StreamWriter(outputFilePath) { AutoFlush = true };
+
+            //var startDate = ZwierzeTable.Min(x => x.DataZgonu).Value;
+            //startDate = startDate.AddDays(-100);
+            //var hour = new TimeSpan(8, 0, 0);
+            //var currentDate = startDate.Date + hour;
+            ////wizyty cykliczne
+            //while (currentDate <= DateTime.Now)
+            //{
+            //    foreach(var zwierze in ZwierzeTable)
+            //    {
+            //        if (currentDate >= zwierze.DataZgonu)
+            //        {
+            //            continue;
+            //        }
+
+            //        var newObject = new Wizyta
+            //        {
+            //            Czas = currentDate,
+            //            IdWeterynarza = WeterynarzTable[GENERATOR.Next(WeterynarzTable.Count)].IdWeterynarza,
+            //            IdWizyty = _idsDictionary.GetNextId("Wizyta").Value,
+            //            IdZwierzecia = zwierze.IdZwierzecia,
+            //            Koszt = GENERATOR.Next(500) + 100,
+            //            Opis = "Wizyta kontrolna, cykliczna."
+            //        };
+            //        currentDate = currentDate.AddMinutes(20);
+            //        WizytaTable.Add(newObject);
+            //    }
+
+            //    currentDate = currentDate.AddDays(10);
+            //}
+
+            
 
 
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    var id = _idsDictionary.GetNextId(currentTable);
+            //    if (id != null)
+            //    {
+            //        var randomizedGatunek = GatunekTable[GENERATOR.Next(GatunekTable.Count)];
+            //        var newObject = new Zwierze
+            //        {
+            //            IdZwierzecia = id.Value,
+            //            DataZgonu = GENERATOR.Next(100) < probabilityOfZgon ? GetRandomDate() : (DateTime?)null,
+            //            IdGatunku = randomizedGatunek.IdGatunku,
+            //            Opis = "Jest to zwierzę o gatunku " + randomizedGatunek.Opis + "."
+            //        };
 
+            //        ZwierzeTable.Add(newObject);
+            //        writer.WriteLine(newObject.ToString(_bulkIndicator));
 
+            //    }
 
+            //}
+            //writer.Close();
+        }
 
+        private void GenerateZdarzenie()
+        {
+            //TODO: implement
+        }
 
-
-
-
-
+        private void GenerateZdarzeniePracownik()
+        {
+            //TODO: implement
+        }
 
 
 

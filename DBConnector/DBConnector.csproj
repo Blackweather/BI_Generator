@@ -45,6 +45,7 @@
     <Compile Include="Model\Pracownik.cs" />
     <Compile Include="Model\Stanowisko.cs" />
     <Compile Include="Model\Weterynarz.cs" />
+    <Compile Include="Model\Wizyta.cs" />
     <Compile Include="Model\Zwierze.cs" />
     <Compile Include="NextId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

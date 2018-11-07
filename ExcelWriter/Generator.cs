@@ -10,7 +10,7 @@ namespace ExcelWriter {
     class Generator {
         public Generator(int dataCount, string timePeriod) {
             _t2Period = DateTime.Now;
-            _t1Period = new DateTime(2013, 12, 05);
+            _t1Period = new DateTime(2018, 11, 01);
             _t0Period = new DateTime(2008, 01, 01);
             foodData = new List<Models.Food>();
             salesData = new List<Models.Sales>();
@@ -33,8 +33,9 @@ namespace ExcelWriter {
             Random gen = new Random();
             for (int i = 0; i < _dataCount; i++) {
                 foodData.Add(RandomFood(i, startDate, range, gen));
-                salesData.Add(RandomSales(startDate, range, gen));
             }
+
+            RandomSales(startDate, range, gen);
 
             // sort both models by date
             foodData = foodData.OrderBy(x => x.Data).ToList();
@@ -55,14 +56,34 @@ namespace ExcelWriter {
             return food;
         }
 
-        private Models.Sales RandomSales(DateTime startDate, int range, Random gen) {
-            Models.Sales sales = new Models.Sales();
+        private void RandomSales(DateTime startDate, int range, Random gen) {
+            DateTime endDate = startDate.AddDays(range);
+            DateTime start = new DateTime();
+            DateTime end = new DateTime();
+            if (startDate == _t0Period) {
+                start = endDate.AddDays(-_dataCount);
+                if (start < _t0Period) {
+                    start = _t0Period;
+                }
+                end = endDate.AddDays(-1);
+            }
+            else if (startDate == _t1Period) {
+                start = startDate;
+                end = startDate.AddDays(_dataCount);
+            }
 
-            sales.Data = startDate.AddDays(gen.Next(range));
-            sales.Bilety = gen.Next(20, 3000); // 20 - 3000
-            sales.BiletyDzieci = gen.Next(sales.Bilety / 2, (sales.Bilety * 10) / 15); // 50% - 66%
-            sales.BiletyDorosli = sales.Bilety - sales.BiletyDzieci;
-            return sales;
+            for (DateTime dt = start; dt <= end; dt = dt.AddDays(1)) {
+                if (dt > endDate) {
+                    break;
+                }
+                Models.Sales sales = new Models.Sales();
+
+                sales.Data = dt;
+                sales.Bilety = gen.Next(20, 3000); // 20 - 3000
+                sales.BiletyDzieci = gen.Next(sales.Bilety / 2, (sales.Bilety * 10) / 15); // 50% - 66%
+                sales.BiletyDorosli = sales.Bilety - sales.BiletyDzieci;
+                salesData.Add(sales);
+            }
         }
 
         private string RandomOpis(Random r) {

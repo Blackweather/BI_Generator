@@ -30,22 +30,23 @@ namespace ExcelWriter {
                 // append to csv
                 File.Copy(_t1FoodCsvPath, _t2FoodCsvPath);
                 File.Copy(_t1SalesCsvPath, _t2SalesCsvPath);
-                WriteToCsv(_t2FoodCsvPath, FileType.FOOD);
-                WriteToCsv(_t2SalesCsvPath, FileType.SALES);
+                WriteToCsv(_t2FoodCsvPath, FileType.FOOD, true);
+                WriteToCsv(_t2SalesCsvPath, FileType.SALES, true);
             }
         }
 
         private void WriteToCsv(string path, FileType type, bool append = false) {
-            if (!File.Exists(path)) {
-                File.Create(path);
+            if (!Directory.Exists(@".\Generated")) {
+                Directory.CreateDirectory(@".\Generated");
             }
+            int lines = (File.Exists(path)) ? File.ReadLines(path).Count() : 1;
             using (StreamWriter sw = new StreamWriter(path, append)) {
                 if (type == FileType.FOOD) {
                     if (!append) {
                         sw.WriteLine("Id;Data;Cena;Opis");
                     }
                     foreach (Models.Food food in _generator.foodData) {
-                        sw.WriteLine($"{food.Id};{food.Data.Day}.{food.Data.Month}.{food.Data.Year};{food.Cena};{food.Opis}");
+                        sw.WriteLine($"{food.Id + lines - 1};{food.Data.Day}.{food.Data.Month}.{food.Data.Year};{food.Cena};{food.Opis}");
                     }
                 }
                 else if (type == FileType.SALES) {

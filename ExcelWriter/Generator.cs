@@ -102,7 +102,7 @@ namespace ExcelWriter {
         private int _dataCount;
         private string _timePeriod;
 
-        private const string _inputOpisPath = @"..\..\..\ExcelWriter\Input\Opis.txt";
+        private const string _inputOpisPath = @".\Input\Opis.txt";
 
     }
 }

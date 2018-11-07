@@ -59,4 +59,8 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(SolutionDir)Input\*.*" "$(TargetDir)Input" /Y /I /E
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -79,17 +79,13 @@ namespace BI_Generator {
             // third parameter - T1/T2
             Console.Clear();
 
-            var a = new DatabaseGenerator(@".", 250);
-            a.Start();
-
-
             if (!CheckArgs(args)) {
                 return -1;
             }
 
             if (args[0] == "-db" || args[0] == "--database") {
-                //for testing
-                 //a = new DatabaseGenerator(@".");
+                DBConnector.DatabaseGenerator db = new DatabaseGenerator(@".", int.Parse(args[1]));
+                db.Start();
             }
             else if (args[0] == "-xls" || args[0] == "--excel") {
                 ExcelWriter.ExcelWriter excelWriter = new ExcelWriter.ExcelWriter(int.Parse(args[1]), args[2]);

@@ -79,7 +79,7 @@ namespace BI_Generator {
             // third parameter - T1/T2
             Console.Clear();
 
-            var a = new DatabaseGenerator(@".", 250, new DateTime(2012, 01, 01));
+            var a = new DatabaseGenerator(@".", 250);
             a.Start();
 
 

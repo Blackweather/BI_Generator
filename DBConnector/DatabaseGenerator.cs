@@ -8,14 +8,16 @@ namespace DBConnector
 {
     public class DatabaseGenerator {
 
-        private Random GENERATOR = new Random();
+        private Random _generator = new Random();
         private readonly char _csvIndicator = ';';
         private readonly char _bulkIndicator = ';';
         private readonly NextId _idsDictionary = new NextId();
         private string _rootDirectory;
         private int _dataCount;
-        private DateTime _t0Period = new DateTime(2008, 01, 01);
-        private DateTime _t1Period;
+        private DateTime _t0Period = new DateTime(2008, 1, 1);
+        private DateTime _t1Period = new DateTime(2018, 11, 1);
+        private DateTime _t2Period = DateTime.Now;
+
         private IList<Stanowisko> StanowiskoTable = new List<Stanowisko>();
         private IList<Gatunek> GatunekTable = new List<Gatunek>();
         private IList<Weterynarz> WeterynarzTable = new List<Weterynarz>();
@@ -29,11 +31,10 @@ namespace DBConnector
         //%
         private double probabilityOfZgon = 10;
 
-        public DatabaseGenerator(string rootDirectory, int dataCount, DateTime t1Period)
+        public DatabaseGenerator(string rootDirectory, int dataCount)
         {
             _rootDirectory = rootDirectory;
             _dataCount = dataCount;
-            _t1Period = t1Period;
         }
 
         public void Start()
@@ -50,6 +51,7 @@ namespace DBConnector
                 GenerateWizyta();
                 GenerateZdarzenie();
                 GenerateZdarzeniePracownik();
+
             }
             catch (IOException e)
             {
@@ -60,12 +62,11 @@ namespace DBConnector
 
         private void GenerateStanowisko()
         {
-            //expected: {ROOT}\Source\{TableName}.csv
             string currentTable = "Stanowisko";
             var reader = new StreamReader(_rootDirectory + "\\Input\\" + currentTable + ".csv");
             var outputFilePath = (_rootDirectory + "\\Output\\" + currentTable + ".bulk");
             File.Create(outputFilePath).Close();
-            var writer = new StreamWriter(outputFilePath) { AutoFlush = true };
+            var writer = new StreamWriter(File.Open(outputFilePath, FileMode.Open), System.Text.Encoding.Unicode);
             string line;
             while ((line = reader.ReadLine()) != null)
             {
@@ -94,7 +95,7 @@ namespace DBConnector
             var reader = new StreamReader(_rootDirectory + "\\Input\\" + currentTable + ".csv");
             var outputFilePath = (_rootDirectory + "\\Output\\" + currentTable + ".bulk");
             File.Create(outputFilePath).Close();
-            var writer = new StreamWriter(outputFilePath) { AutoFlush = true };
+            var writer = new StreamWriter(File.Open(outputFilePath, FileMode.Open), System.Text.Encoding.Unicode);
             string line;
             while ((line = reader.ReadLine()) != null)
             {
@@ -123,7 +124,7 @@ namespace DBConnector
             var reader = new StreamReader(_rootDirectory + "\\Input\\" + currentTable + ".csv");
             var outputFilePath = (_rootDirectory + "\\Output\\" + currentTable + ".bulk");
             File.Create(outputFilePath).Close();
-            var writer = new StreamWriter(outputFilePath) { AutoFlush = true };
+            var writer = new StreamWriter(File.Open(outputFilePath, FileMode.Open), System.Text.Encoding.Unicode);
             string line;
             while ((line = reader.ReadLine()) != null)
             {
@@ -137,7 +138,7 @@ namespace DBConnector
                         Imie = columns[0],
                         Nazwisko = columns[1],
                         DataZatrudnienia = GetRandomDate(),
-                        IdStanowiska = GENERATOR.Next(StanowiskoTable.Count) + 1
+                        IdStanowiska = _generator.Next(StanowiskoTable.Count) + 1
                     };
 
                     PracownikTable.Add(newObject);
@@ -156,7 +157,7 @@ namespace DBConnector
             var reader = new StreamReader(_rootDirectory + "\\Input\\" + currentTable + ".csv");
             var outputFilePath = (_rootDirectory + "\\Output\\" + currentTable + ".bulk");
             File.Create(outputFilePath).Close();
-            var writer = new StreamWriter(outputFilePath) { AutoFlush = true };
+            var writer = new StreamWriter(File.Open(outputFilePath, FileMode.Open), System.Text.Encoding.Unicode);
             string line;
             while ((line = reader.ReadLine()) != null)
             {
@@ -188,7 +189,7 @@ namespace DBConnector
             var reader = new StreamReader(_rootDirectory + "\\Input\\" + currentTable + ".csv");
             var outputFilePath = (_rootDirectory + "\\Output\\" + currentTable + ".bulk");
             File.Create(outputFilePath).Close();
-            var writer = new StreamWriter(outputFilePath) { AutoFlush = true };
+            var writer = new StreamWriter(File.Open(outputFilePath, FileMode.Open), System.Text.Encoding.Unicode);
             string line;
             while ((line = reader.ReadLine()) != null)
             {
@@ -216,17 +217,17 @@ namespace DBConnector
             string currentTable = "Zwierze";
             var outputFilePath = (_rootDirectory + "\\Output\\" + currentTable + ".bulk");
             File.Create(outputFilePath).Close();
-            var writer = new StreamWriter(outputFilePath) { AutoFlush = true };
+            var writer = new StreamWriter(File.Open(outputFilePath, FileMode.Open), System.Text.Encoding.Unicode);
             for (int i = 0; i < _dataCount/10; i++)
             {
                 var id = _idsDictionary.GetNextId(currentTable);
                 if (id != null)
                 {
-                    var randomizedGatunek = GatunekTable[GENERATOR.Next(GatunekTable.Count)];
+                    var randomizedGatunek = GatunekTable[_generator.Next(GatunekTable.Count)];
                     var newObject = new Zwierze
                     {
                         IdZwierzecia = id.Value,
-                        DataZgonu = GENERATOR.Next(100) < probabilityOfZgon ? GetRandomDate() : (DateTime?)null,
+                        DataZgonu = _generator.Next(100) < probabilityOfZgon ? GetRandomDate() : (DateTime?)null,
                         IdGatunku = randomizedGatunek.IdGatunku,
                         Opis = "Jest to zwierzę o gatunku " + randomizedGatunek.Opis + "."
                     };
@@ -245,7 +246,7 @@ namespace DBConnector
             string currentTable = "Wizyta";
             var outputFilePath = (_rootDirectory + "\\Output\\" + currentTable + ".bulk");
             File.Create(outputFilePath).Close();
-            var writer = new StreamWriter(outputFilePath) { AutoFlush = true };
+            var writer = new StreamWriter(File.Open(outputFilePath, FileMode.Open), System.Text.Encoding.Unicode);
 
             var startDate = _t0Period;
             var hour = new TimeSpan(8, 0, 0);
@@ -263,9 +264,9 @@ namespace DBConnector
                     var newObject = new Wizyta
                     {
                         Czas = currentDate,
-                        IdWeterynarza = WeterynarzTable[GENERATOR.Next(WeterynarzTable.Count)].IdWeterynarza,
+                        IdWeterynarza = WeterynarzTable[_generator.Next(WeterynarzTable.Count)].IdWeterynarza,
                         IdZwierzecia = zwierze.IdZwierzecia,
-                        Koszt = GENERATOR.Next(500) + 100,
+                        Koszt = _generator.Next(500) + 100,
                         Opis = "Wizyta kontrolna, cykliczna."
                     };
                     currentDate = currentDate.AddMinutes(10);
@@ -288,10 +289,10 @@ namespace DBConnector
                     }
                     var newRecord = new Wizyta
                     {
-                        IdWeterynarza = GENERATOR.Next(WeterynarzTable.Count) + 1,
+                        IdWeterynarza = _generator.Next(WeterynarzTable.Count) + 1,
                         IdZwierzecia = zwierze.IdZwierzecia,
                         Czas = randomDateTime,
-                        Koszt = GENERATOR.Next(800) + 100,
+                        Koszt = _generator.Next(800) + 100,
                         Opis = "Wizyta nagła! Szczególnie dbać o zwierzę w następnych dniach!"
                     };
 
@@ -315,8 +316,8 @@ namespace DBConnector
             {
                 foreach(var zwierze in ZwierzeTable)
                 {
-                    var randomHours = GENERATOR.Next(8) + 8;
-                    var randomMinutes = GENERATOR.Next(60);
+                    var randomHours = _generator.Next(8) + 8;
+                    var randomMinutes = _generator.Next(60);
                     var sprzatanieId = TypZdarzeniaTable.FirstOrDefault(x => x.Opis == "Sprzątanie").IdTypuZdarzenia;
                     var newRecord = new Zdarzenie
                     {
@@ -338,8 +339,8 @@ namespace DBConnector
             {
                 foreach (var zwierze in ZwierzeTable)
                 {
-                    var randomHours = GENERATOR.Next(8) + 8;
-                    var randomMinutes = GENERATOR.Next(60);
+                    var randomHours = _generator.Next(8) + 8;
+                    var randomMinutes = _generator.Next(60);
                     var karmienieId = TypZdarzeniaTable.FirstOrDefault(x => x.Opis == "Karmienie").IdTypuZdarzenia;
                     var newRecord = new Zdarzenie
                     {
@@ -361,8 +362,8 @@ namespace DBConnector
             {
                 foreach (var zwierze in ZwierzeTable)
                 {
-                    var randomHours = GENERATOR.Next(8) + 8;
-                    var randomMinutes = GENERATOR.Next(60);
+                    var randomHours = _generator.Next(8) + 8;
+                    var randomMinutes = _generator.Next(60);
                     var kontrolaId = TypZdarzeniaTable.FirstOrDefault(x => x.Opis == "Kontrola").IdTypuZdarzenia;
                     var newRecord = new Zdarzenie
                     {
@@ -382,8 +383,8 @@ namespace DBConnector
             var currentTable = "Zdarzenie";
             var outputFilePath = (_rootDirectory + "\\Output\\" + currentTable + ".bulk");
             File.Create(outputFilePath).Close();
-            var writer = new StreamWriter(outputFilePath) { AutoFlush = true };
-            foreach(var zdarzenie in ZdarzenieTable)
+            var writer = new StreamWriter(File.Open(outputFilePath, FileMode.Open), System.Text.Encoding.Unicode);
+            foreach (var zdarzenie in ZdarzenieTable)
             {
                 zdarzenie.IdZdarzenia = _idsDictionary.GetNextId(currentTable).Value;
                 writer.WriteLine(zdarzenie.ToString(_bulkIndicator));
@@ -399,16 +400,24 @@ namespace DBConnector
             var kontrolaId = TypZdarzeniaTable.First(x => x.Opis == "Kontrola").IdTypuZdarzenia;
 
             var sprzatanieList = ZdarzenieTable.Where(x => x.IdTypuZdarzenia == sprzatanieId);
+          
             foreach(var sprzatanie in sprzatanieList)
             {
+                var busy = new List<int>();
                 for (int i = 0; i < 2; i++)
                 {
-                    var randomizedPracownikId = PracownikTable[GENERATOR.Next(PracownikTable.Count)].IdPracownika;
+                    int randomizedPracownikId = PracownikTable[_generator.Next(PracownikTable.Count)].IdPracownika;
+                    while (busy.Contains(randomizedPracownikId))
+                    {
+                        randomizedPracownikId = PracownikTable[_generator.Next(PracownikTable.Count)].IdPracownika;
+                    };
                     var newRecord = new ZdarzeniePracownik
                     {
                         IdPracownika = randomizedPracownikId,
                         IdZdarzenia = sprzatanie.IdZdarzenia
                     };
+
+                    busy.Add(randomizedPracownikId);
 
                     ZdarzeniePracownikTable.Add(newRecord);
                 }
@@ -418,7 +427,7 @@ namespace DBConnector
             var karmienieList = ZdarzenieTable.Where(x => x.IdTypuZdarzenia == karmienieId);
             foreach(var karmienie in karmienieList)
             {
-                var randomizedPracownikId = PracownikTable[GENERATOR.Next(PracownikTable.Count)].IdPracownika;
+                var randomizedPracownikId = PracownikTable[_generator.Next(PracownikTable.Count)].IdPracownika;
                 var newRecord = new ZdarzeniePracownik
                 {
                     IdPracownika = randomizedPracownikId,
@@ -432,7 +441,7 @@ namespace DBConnector
             var kontrolaList = ZdarzenieTable.Where(x => x.IdTypuZdarzenia == kontrolaId);
             foreach (var kontrola in kontrolaList)
             {
-                var randomizedPracownikId = PracownikTable[GENERATOR.Next(PracownikTable.Count)].IdPracownika;
+                var randomizedPracownikId = PracownikTable[_generator.Next(PracownikTable.Count)].IdPracownika;
                 var newRecord = new ZdarzeniePracownik
                 {
                     IdPracownika = randomizedPracownikId,
@@ -446,7 +455,7 @@ namespace DBConnector
             var currentTable = "ZdarzeniePracownik";
             var outputFilePath = (_rootDirectory + "\\Output\\" + currentTable + ".bulk");
             File.Create(outputFilePath).Close();
-            var writer = new StreamWriter(outputFilePath) { AutoFlush = true };
+            var writer = new StreamWriter(File.Open(outputFilePath, FileMode.Open), System.Text.Encoding.Unicode);
             foreach (var zdarzeniePracownik in ZdarzeniePracownikTable)
             {
                 writer.WriteLine(zdarzeniePracownik.ToString(_bulkIndicator));
@@ -465,7 +474,7 @@ namespace DBConnector
                 end = start;
             }
             int range = (end - start).Days;
-            return start.AddDays(GENERATOR.Next(range));
+            return start.AddDays(_generator.Next(range));
         }
         private DateTime GetRandomDate()
         {

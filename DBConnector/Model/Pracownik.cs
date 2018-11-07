@@ -17,7 +17,7 @@ namespace DBConnector.Model
 
         public string ToString(char bulkIndicator)
         {
-            return String.Join(bulkIndicator.ToString(), new string[] { IdPracownika.ToString(), Imie, Nazwisko, DataZatrudnienia.ToShortDateString(), IdStanowiska.ToString() });
+            return String.Join(bulkIndicator.ToString(), new string[] { IdPracownika.ToString(), Imie, Nazwisko, IdStanowiska.ToString(), DataZatrudnienia.ToShortDateString() });
         }
     }
 }

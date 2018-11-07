@@ -15,7 +15,7 @@ namespace DBConnector.Model
 
         public String ToString(char bulkIndicator)
         {
-            return String.Join(bulkIndicator.ToString(), new string[] { IdZwierzecia.ToString(), Opis, IdGatunku.ToString(), DataZgonu == null ? "NULL" : DataZgonu.Value.ToShortDateString() });
+            return String.Join(bulkIndicator.ToString(), new string[] { IdZwierzecia.ToString(), Opis, IdGatunku.ToString(), DataZgonu == null ? "" : DataZgonu.Value.ToShortDateString() });
         }
     }
 }

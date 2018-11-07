@@ -40,9 +40,6 @@ namespace ExcelWriter {
                 File.Create(path);
             }
             using (StreamWriter sw = new StreamWriter(path, append)) {
-                if (!append) {
-                    sw.WriteLine("sep=;");
-                }
                 if (type == FileType.FOOD) {
                     if (!append) {
                         sw.WriteLine("Id;Data;Cena;Opis");

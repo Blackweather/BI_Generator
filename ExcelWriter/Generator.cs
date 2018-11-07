@@ -46,7 +46,9 @@ namespace ExcelWriter {
 
             food.Id = id;
             food.Opis = RandomOpis(gen);
-            food.Data = startDate.AddDays(gen.Next(range));
+            int toAdd = Convert.ToInt32((double)range / (double)_dataCount * (double)id);
+            food.Data = startDate.AddDays(toAdd);
+            food.Data = food.Data.AddDays(gen.Next(range / _dataCount));
             food.Cena = gen.NextDouble() * 1400 + 100; // 100 - 1500
             food.Cena = Math.Round(food.Cena, 2);
 
